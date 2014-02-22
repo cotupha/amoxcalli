@@ -1,0 +1,73 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% This is a sample file that shows how to use the commands defined in amoxcally.sty in order %
+%%% to produce multiple bibliographies within one file, restarting and keeping the numbering   %
+%%% according to the user's needs, as well as using counters in order to know the total number %
+%%% of bibliographic entries displayed.                                                        %
+%%% Although the documentation is written in English, it was initially intented for use with   %
+%%% documents in Spanish (as you can see in the amoxcalliStyle.bst                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\documentclass[11pt,spanish]{article}
+
+\usepackage{amoxcalli}
+
+\title{Sample file for \textsc{amoxcalli}}
+\author{cotupha}
+\sloppy
+
+%%%COUNTERS
+%%%We define the counters we will use for the example.
+
+%%%Counters for the books
+\newtotcounter{totalCitasAbductiveReasoning}
+\newtotcounter{totalCitasSeekingExplanations}
+\newtotcounter{totalCitasLibros}
+%%%Command to calculate the total number of of entries corresponding to books.
+\newcommand{\saveTotalLibros}{%
+\addtocounter{totalCitasLibros}{\totvalue{totalCitasAbductiveReasoning}}
+\addtocounter{totalCitasLibros}{\totvalue{totalCitasSeekingExplanations}}
+}
+
+%%%Counters for the articles
+\newtotcounter{totalCitasLogicsScientificDiscovery}
+\newtotcounter{totalCitasAbduccionCambioEpistemico}
+\newtotcounter{totalCitasArticulos}
+
+%%%Command to calculate the total number of of entries corresponding to articles.
+\newcommand{\saveTotalArticulos}{%
+\addtocounter{totalCitasArticulos}{\totvalue{totalCitasLogicsScientificDiscovery}}
+\addtocounter{totalCitasArticulos}{\totvalue{totalCitasAbduccionCambioEpistemico}}
+}
+
+%%%Counter for ALL the entries.
+\newtotcounter{totalCitasGeneral}
+%%%Command to calculate the total number of entries (book entries + article entries)
+\newcommand{\saveTotalGeneral}{%
+\addtocounter{totalCitasGeneral}{\totvalue{totalCitasLibros}}
+\addtocounter{totalCitasGeneral}{\totvalue{totalCitasArticulos}}
+}
+
+\bibliographystyle{amoxcalliStyle}
+
+\begin{document}
+
+\selectlanguage{spanish}
+
+\maketitle
+
+\input{Summary}
+
+\section*{Books}
+\input{AbductiveReasoning}
+\input{SeekingExplanations}
+\saveTotalLibros
+
+\section*{Articles}
+\input{LogicsScientificDiscovery}
+\input{AbduccionCambioEpistemico}
+\saveTotalArticulos
+
+\saveTotalGeneral
+
+\end{document}

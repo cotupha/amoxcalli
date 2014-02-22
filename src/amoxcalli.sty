@@ -1,0 +1,62 @@
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{amoxcalli}
+
+\usepackage[spanish,english]{babel}
+\usepackage[spanish,english]{layout}
+\usepackage[utf8]{inputenc}
+
+%%%To correctly produce smallcaps in bold.
+\usepackage[T1]{fontenc}  
+\usepackage{enumerate}
+\usepackage{anysize}
+
+%%%We use bibtopic package for managing multiple bibliographies.
+%%%We load it with unitcntnoreset option, so that it will not restart the numbering withing each
+%%%bibliography unit.
+%%%(See commands restartNumb and keepNumb)
+\usepackage[unitcntnoreset]{bibtopic}
+%%%We use package totcount to manage the counters for the number of entries of biliography.
+\usepackage{totcount}
+\usepackage[hyphens]{url}
+\usepackage[final,pdftex,unicode,colorlinks=true,citecolor=blue,linkcolor=blue,plainpages=false,
+pdfpagelabels=true,pdfauthor={cotupha}]{hyperref}
+%%\usepackage{slantsc}
+
+%%%COMMANDS
+%%%Auxiliar to quote (if enquote is used, it has conflicts with the
+%%%one defined in the bibliography).
+\newcommand{\menquote}[1]{``#1''}
+%%%Auxiliar to doi.
+\newcommand{\doi}[1]{doi:\discretionary{}{}{}#1}
+%%%In charge of printing the right word considering singular and plural.
+\newcommand{\printPubNum}[1]{\total{#1} \ifthenelse{\equal{\totvalue{#1}}{1}}{publication}{publications}}
+
+
+
+%%%Command in charge of enabling the automatic restart of the bibliographic entries counter.
+%%%When we loaded the package bibtopic, we specified the option unitcntnoreset, which tells bibtopic not to
+%%%restart the counter (the default behaivour of bibtopic is restarting the numbering at the beggining of
+%%%each bibliographical unit). We want to be able to tell bibtopic when to restart it and when to keep it.
+%%%We have to call this command before the btUnit where we want the numbering to restart.
+\newcommand\restartNumb{%
+  \global\bt@part@cont@ctrfalse
+}
+%%%Command in charge of disabling the automatic restart of the bibliographic entries counter.
+%%%When we loaded the package bibtopic, we specified the option unitcntnoreset, which tells bibtopic not to
+%%%restart the counter, but then this might have changed with the previously described command restartNumb.
+%%%We want to be able to tell bibtopic when to restart it and when to keep it.
+%%%We have to call this command before the btUnit where we want the numbering NOT to restart.
+\newcommand\keepNumb{%
+  \global\bt@part@cont@ctrtrue
+}
+%%%Command that saves, in the counter that it receives as argument, the current value of the bibliographic
+%%%entries counter.
+\newcommand\saveNumb[1]{%
+         \@tempcnta\bt@save@cnt
+     \setcounter{#1}{\the\@tempcnta}
+}
+
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{1ex}
+
+\endinput
